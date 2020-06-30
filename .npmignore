@@ -1,0 +1,7 @@
+.eslintignore
+.gitattributes
+.eslintrc.js
+tests/
+.vscode/
+coverage/
+.github/
