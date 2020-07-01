@@ -1,5 +1,7 @@
 # verdaccio-redis-storage
 
+![npm](https://img.shields.io/npm/v/verdaccio-redis-storage) ![NPM](https://img.shields.io/npm/l/verdaccio-redis-storage) ![npm](https://img.shields.io/npm/dm/verdaccio-redis-storage)
+
 A Redis based storage plugin for Verdaccio.
 
 ## Usage
