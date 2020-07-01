@@ -1,7 +1,7 @@
 {
   "name": "verdaccio-redis-storage",
   "version": "0.0.1",
-  "description": "A redis based storage plugin for verdaccio.",
+  "description": "A Redis based storage plugin for Verdaccio.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [

@@ -1,6 +1,6 @@
 # verdaccio-redis-storage
 
-A Redis based storage plugin for verdaccio.
+A Redis based storage plugin for Verdaccio.
 
 ## Usage
 
