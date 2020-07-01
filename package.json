@@ -42,7 +42,7 @@
     "storage"
   ],
   "license": "BSD-3-Clause",
-  "repository": "openupm/redis-storage",
+  "repository": "https://github.com/openupm/verdaccio-redis-storage",
   "author": "Favo Yang <https://github.com/favoyang>",
   "scripts": {
     "build": "npm run build:types && npm run build:js",
