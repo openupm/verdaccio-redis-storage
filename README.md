@@ -30,7 +30,7 @@ Redis is an in-memory database which is not good at dealing with large tarball f
 
 ## Data structure
 
-| Content      | Redis type | Redis Key           | Hash field   |
+| Content      | Redis type | Redis key           | Hash field   |
 |--------------|------------|---------------------|--------------|
 | package list | set        | ve:pkgs             | -            |
 | secret       | string     | ve:secret           | -            |
