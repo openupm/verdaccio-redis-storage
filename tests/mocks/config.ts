@@ -41,7 +41,8 @@ const config: RedisConfig = {
   checkSecretKey: () => '1234',
   getMatchedPackagesSpec: jest.fn(),
   hasProxyTo: () => false,
-  redis_options: {},
+  host: '127.0.0.1',
+  port: 6379,
 };
 
 export default config;

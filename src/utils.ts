@@ -6,7 +6,7 @@ import { VerdaccioError, getInternalError } from '@verdaccio/commons-api';
 import { RedisConfig } from '../types/index';
 
 export function redisCreateClient(config: RedisConfig, logger: Logger): IHandyRedis {
-  const client = createClient(config.redis_options);
+  const client = createClient(config);
 
   client.on('connect', function() {
     logger.info({}, '[verdaccio/redis] connected to redis server');
