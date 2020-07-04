@@ -13,7 +13,11 @@
   "dependencies": {
     "@verdaccio/commons-api": "^8.5.0",
     "@verdaccio/streams": "^8.5.2",
+    "commander": "^5.1.0",
     "handy-redis": "^1.8.3",
+    "js-yaml": "^3.14.0",
+    "loglevel": "^1.6.8",
+    "project-version": "^1.2.0",
     "redis": "^3.0.2",
     "stream-to-string": "^1.2.0"
   },
@@ -50,5 +54,8 @@
     "build:types": "tsc --emitDeclarationOnly",
     "test": "cross-env NODE_ENV=test jest",
     "lint": "eslint \"**/*.{js,ts}\""
+  },
+  "bin": {
+    "verdaccio-redis": "./bin/verdaccio-redis"
   }
 }
