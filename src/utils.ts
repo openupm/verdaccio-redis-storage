@@ -1,11 +1,9 @@
 import { Logger } from '@verdaccio/types';
-import { createClient } from 'redis';
+import { createClient, ClientOpts } from 'redis';
 import { createHandyClient, IHandyRedis } from 'handy-redis';
 import { VerdaccioError, getInternalError } from '@verdaccio/commons-api';
 
-import { RedisConfig } from '../types/index';
-
-export function redisCreateClient(config: RedisConfig, logger: Logger): IHandyRedis {
+export function redisCreateClient(config: ClientOpts, logger: Logger): IHandyRedis {
   const client = createClient(config);
 
   client.on('connect', function() {
