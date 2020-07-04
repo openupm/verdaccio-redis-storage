@@ -1,3 +1,10 @@
+## [0.0.4](https://github.com/openupm/verdaccio-redis-storage/compare/0.0.3...0.0.4) (2020-07-04)
+
+
+### Bug Fixes
+
+* package stats stores to wrong Redis key ([0600848](https://github.com/openupm/verdaccio-redis-storage/commit/06008480e1194f272bf4b9805e16bf626ff4edb7))
+
 ## [0.0.3](https://github.com/openupm/verdaccio-redis-storage/compare/0.0.2...0.0.3) (2020-07-03)
 
 
