@@ -69,7 +69,7 @@ export default class Database {
   public async getStat(name: string): Promise<PackageStat> {
     try {
       this.logger.debug({ name }, '[verdaccio/redis] db.getStat for @{name}');
-      const result = await this.redisClient.hget(REDIS_KEY.package, REDIS_FIELD.stat);
+      const result = await this.redisClient.hget(REDIS_KEY.package + name, REDIS_FIELD.stat);
       if (result === null) {
         return {
           name,
@@ -99,7 +99,7 @@ export default class Database {
         time: new Date().getTime(),
       };
       const data = JSON.stringify(stat);
-      await this.redisClient.hset(REDIS_KEY.package, REDIS_FIELD.stat, data);
+      await this.redisClient.hset(REDIS_KEY.package + name, REDIS_FIELD.stat, data);
     } catch (err) {
       throw wrapError(err);
     }
