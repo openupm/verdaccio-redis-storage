@@ -5,3 +5,9 @@ import { ClientOpts } from 'redis';
 export interface RedisConfig extends Config, ClientOpts {}
 
 export type CommandCallback = () => Promise<void>;
+
+export interface PackageStat {
+  name: string;
+  path: string;
+  time: number;
+}

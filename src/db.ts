@@ -1,9 +1,9 @@
-import { Logger, Token, TokenFilter, Package } from '@verdaccio/types';
+import { Logger, Token, TokenFilter } from '@verdaccio/types';
 import { IHandyRedis } from 'handy-redis';
-import { getInternalError } from '@verdaccio/commons-api';
+
+import { PackageStat } from '../types';
 
 import { REDIS_KEY, wrapError, REDIS_FIELD } from './utils';
-import { PackageStat } from './stat';
 
 /**
  * Database of Verdaccio. It's actually pretty simple as it only contains a secret
