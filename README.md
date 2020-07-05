@@ -30,13 +30,13 @@ Redis is an in-memory database which is not good at dealing with large tarball f
 
 ## Data structure
 
-| Content      | Redis type | Redis key           | Hash field   |
-|--------------|------------|---------------------|--------------|
-| package list | set        | ve:pkgs             | -            |
-| secret       | string     | ve:secret           | -            |
-| token        | hash       | ve:token:$user      | $tokenKey    |
-| package.json | hash       | ve:pkg:$packageName | package.json |
-| tarball      | hash       | ve:pkg:$packageName | $fileName    |
+| Content type | Redis type | Redis key           | Hash field   | Note           |
+|--------------|------------|---------------------|--------------|----------------|
+| package list | set        | ve:pkgs             | -            |                |
+| secret       | string     | ve:secret           | -            |                |
+| token        | hash       | ve:token:$user      | $tokenKey    |                |
+| package.json | hash       | ve:pkg:$packageName | package.json |                |
+| tarball      | hash       | ve:pkg:$packageName | $fileName    | base64 encoded |
 
 Data are stored with prefix `ve:` (`testve:` for test mode). You can optionally add global prefix via `config.prefix`.
 

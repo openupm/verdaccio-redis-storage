@@ -32,7 +32,7 @@ program
 
 program
   .command('dump [dir]')
-  .description('dump redis storage to dir')
+  .description('dump Redis storage to dir')
   .action(async function(dir: string, cmd: Command) {
     await runCommand(async () => {
       await dump(dir, cmd);
