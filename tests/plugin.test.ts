@@ -1,14 +1,17 @@
 import { IPackageStorage, ILocalPackageManager, Token } from '@verdaccio/types';
 import { HTTP_STATUS, VerdaccioError, getBadRequest, getInternalError } from '@verdaccio/commons-api';
-import streamToString from 'stream-to-string';
 
 import RedisStorage from '../src/plugin';
-import { TEST_REDIS_PREFIX, REDIS_KEY } from '../src/utils';
+import { TEST_REDIS_PREFIX, REDIS_KEY, bufferStreamToBase64String } from '../src/utils';
 import StoragePluginManager from '../src/PackageStorage';
 
 import config from './mocks/config';
 import logger from './mocks/logger';
 import { pkg1 } from './mocks/pkgs';
+
+const TarballBase64 =
+  'H4sIAAAAAAAAAytITM5OTE/VL4DQelnF+XkMVAYGBgZmZiYK2MTBwBQoZ2xqZmBoaGZmAGQDGaYm5kCa2g7BBkqLSxKLgE6h1ByIVxTg9BAB1VwKCkp5ibmpSlYKSrmVBdnpSjogobLUouLM/DyQqKGegZ6BElct10C7dRSMglEwCkYB9QAA9VEdpAAIAAA=';
+const TarballBuffer = new Buffer(TarballBase64, 'base64');
 
 describe('redis storage unit test', () => {
   let redisStorage: RedisStorage = null;
@@ -386,8 +389,7 @@ describe('redis storage unit test', () => {
       const storage = packageStorage as ILocalPackageManager;
       const pkgName = pkg1.name;
       const fileName = 'test.tgz';
-      const data = 'tarball content...';
-      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, data).then(() => {
+      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, TarballBase64).then(() => {
         storage.deletePackage(fileName, err => {
           expect(err).toBeNull();
           redisStorage.redisClient.hget(REDIS_KEY.package + pkgName, fileName).then(data2 => {
@@ -415,8 +417,7 @@ describe('redis storage unit test', () => {
       const storage = packageStorage as ILocalPackageManager;
       const pkgName = pkg1.name;
       const fileName = 'test.tgz';
-      const data = 'tarball content...';
-      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, data).then(() => {
+      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, TarballBase64).then(() => {
         storage.removePackage(err => {
           expect(err).toBeNull();
           redisStorage.redisClient.hget(REDIS_KEY.package + pkgName, fileName).then(data2 => {
@@ -431,11 +432,10 @@ describe('redis storage unit test', () => {
       const storage = packageStorage as ILocalPackageManager;
       const pkgName = pkg1.name;
       const fileName = 'test.tgz';
-      const data = 'tarball content...';
       const uploadTarball = storage.writeTarball(fileName);
       uploadTarball.on('success', () => {
-        redisStorage.redisClient.hget(REDIS_KEY.package + pkgName, fileName).then(data2 => {
-          expect(data2).toEqual(data);
+        redisStorage.redisClient.hget(REDIS_KEY.package + pkgName, fileName).then(data => {
+          expect(data).toEqual(TarballBase64);
           done();
         });
       });
@@ -443,9 +443,9 @@ describe('redis storage unit test', () => {
         done.fail(`Unexpected error has been emitted in write stream: ${err}`);
       });
       // Write to stream
-      uploadTarball.emit('content-length', data.length);
+      uploadTarball.emit('content-length', TarballBuffer.length);
       uploadTarball.emit('open');
-      uploadTarball.write(data, err => {
+      uploadTarball.write(TarballBuffer, err => {
         if (!err) {
           uploadTarball.end();
         }
@@ -456,8 +456,7 @@ describe('redis storage unit test', () => {
       const storage = packageStorage as ILocalPackageManager;
       const pkgName = pkg1.name;
       const fileName = 'test.tgz';
-      const data = 'tarball content...';
-      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, data).then(() => {
+      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, TarballBase64).then(() => {
         const uploadTarball = storage.writeTarball(fileName);
         uploadTarball.on('success', () => {
           done.fail('should not reach here');
@@ -467,9 +466,9 @@ describe('redis storage unit test', () => {
           done();
         });
         // Write to stream
-        uploadTarball.emit('content-length', data.length);
+        uploadTarball.emit('content-length', TarballBuffer.length);
         uploadTarball.emit('open');
-        uploadTarball.write(data, err => {
+        uploadTarball.write(TarballBuffer, err => {
           if (!err) {
             uploadTarball.end();
           }
@@ -480,7 +479,6 @@ describe('redis storage unit test', () => {
     test('should fail on writing tarball fails', done => {
       const storage = packageStorage as ILocalPackageManager;
       const fileName = 'test.tgz';
-      const data = 'tarball content...';
       const uploadTarball = storage.writeTarball(fileName);
       uploadTarball.on('success', () => {
         done.fail('should not reach here');
@@ -490,7 +488,7 @@ describe('redis storage unit test', () => {
         done();
       });
       // Write to stream
-      uploadTarball.emit('content-length', data.length);
+      uploadTarball.emit('content-length', TarballBuffer.length);
       uploadTarball.emit('open');
       uploadTarball.emit('error', getBadRequest('bad request'));
     });
@@ -499,11 +497,10 @@ describe('redis storage unit test', () => {
       const storage = packageStorage as ILocalPackageManager;
       const pkgName = pkg1.name;
       const fileName = 'test.tgz';
-      const data = 'tarball content...';
-      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, data).then(() => {
+      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, TarballBase64).then(() => {
         const readTarball = storage.readTarball(fileName);
-        streamToString(readTarball).then(data2 => {
-          expect(data2).toEqual(data);
+        bufferStreamToBase64String(readTarball).then(data => {
+          expect(data).toEqual(TarballBase64);
           done();
         });
       });
@@ -513,7 +510,7 @@ describe('redis storage unit test', () => {
       const storage = packageStorage as ILocalPackageManager;
       const fileName = 'test-not-exist.tgz';
       const readTarball = storage.readTarball(fileName);
-      streamToString(readTarball)
+      bufferStreamToBase64String(readTarball)
         .then(() => {
           done.fail('should not reach here');
         })
@@ -527,11 +524,10 @@ describe('redis storage unit test', () => {
       const storage = packageStorage as ILocalPackageManager;
       const pkgName = pkg1.name;
       const fileName = 'test.tgz';
-      const data = 'tarball content...';
-      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, data).then(() => {
+      redisStorage.redisClient.hset(REDIS_KEY.package + pkgName, fileName, TarballBase64).then(() => {
         const readTarball = storage.readTarball(fileName);
         readTarball.abort();
-        streamToString(readTarball)
+        bufferStreamToBase64String(readTarball)
           .then(() => {
             done.fail('should not reach here');
           })
