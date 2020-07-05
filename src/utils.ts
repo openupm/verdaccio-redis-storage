@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { Readable } from 'stream';
 
 import { Logger } from '@verdaccio/types';
 import { createClient, ClientOpts } from 'redis';
@@ -80,4 +81,24 @@ export function parseConfigFile(configPath: string): any {
     }
     throw new Error(e);
   }
+}
+
+/**
+ * Convert buffer stream to base64 string
+ */
+export function bufferStreamToBase64String(stream: Readable): Promise<string> {
+  const chunks: Buffer[] = [];
+  return new Promise(function(resolve, reject) {
+    stream.on('data', function(chunk) {
+      chunks.push(chunk as Buffer);
+    });
+    stream.on('end', function() {
+      const buf = Buffer.concat(chunks);
+      const data = buf.toString('base64');
+      resolve(data);
+    });
+    stream.on('error', function(err) {
+      reject(err);
+    });
+  });
 }

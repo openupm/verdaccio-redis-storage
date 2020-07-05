@@ -1,6 +1,5 @@
 import { Readable } from 'stream';
 
-import streamToString from 'stream-to-string';
 import {
   Logger,
   ILocalPackageManager,
@@ -14,22 +13,21 @@ import {
 import { UploadTarball, ReadTarball } from '@verdaccio/streams';
 import { getNotFound, getConflict, getBadData, getBadRequest } from '@verdaccio/commons-api';
 import { IHandyRedis } from 'handy-redis';
+import { ClientOpts } from 'redis';
 
-import { RedisConfig } from '../types/index';
-
-import { REDIS_KEY, wrapError } from './utils';
+import { REDIS_KEY, wrapError, bufferStreamToBase64String } from './utils';
 import Database from './db';
 
-const PKG_FILE_NAME = 'package.json';
+export const PKG_FILE_NAME = 'package.json';
 
 export default class StoragePluginManager implements ILocalPackageManager {
   public logger: Logger;
   public packageName: string;
-  public config: RedisConfig;
+  public config: ClientOpts;
   public redisClient: IHandyRedis;
   public db: Database;
 
-  public constructor(config: RedisConfig, packageName: string, logger: Logger, redisClient: IHandyRedis, db: Database) {
+  public constructor(config: ClientOpts, packageName: string, logger: Logger, redisClient: IHandyRedis, db: Database) {
     this.logger = logger;
     this.packageName = packageName;
     this.config = config;
@@ -191,7 +189,7 @@ export default class StoragePluginManager implements ILocalPackageManager {
       .catch(err => callback(err));
   }
 
-  private async readPackageAsync(pkgName: string): Promise<Package> {
+  public async readPackageAsync(pkgName: string): Promise<Package> {
     try {
       this.logger.debug({ pkgName }, '[verdaccio/redis] readPackage @{pkgName}');
       const key = REDIS_KEY.package + pkgName;
@@ -223,7 +221,7 @@ export default class StoragePluginManager implements ILocalPackageManager {
       .hget(key, fileName)
       .then(value => {
         if (value === null || value === '') {
-          streamToString(uploadTarball)
+          bufferStreamToBase64String(uploadTarball)
             .then(data => {
               this.redisClient
                 .hset(key, fileName, data)
@@ -264,8 +262,9 @@ export default class StoragePluginManager implements ILocalPackageManager {
           readTarball.emit('error', getNotFound(`tarball ${pkgName}/${fileName} not found`));
           return;
         }
-        const readable = Readable.from([data]);
-        readTarball.emit('content-length', data.length);
+        const buf = Buffer.from(data, 'base64');
+        const readable = Readable.from([buf]);
+        readTarball.emit('content-length', buf.length);
         readTarball.emit('open');
         readable.pipe(readTarball);
         readable.on('error', err => {

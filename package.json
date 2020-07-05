@@ -17,9 +17,9 @@
     "handy-redis": "^1.8.3",
     "js-yaml": "^3.14.0",
     "loglevel": "^1.6.8",
+    "mkdirp": "^1.0.4",
     "project-version": "^1.2.0",
-    "redis": "^3.0.2",
-    "stream-to-string": "^1.2.0"
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
