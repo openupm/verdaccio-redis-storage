@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/openupm/verdaccio-redis-storage/compare/0.1.0...0.1.1) (2020-07-09)
+
+
+### Bug Fixes
+
+* make dir parameter required for dump command ([4f83b14](https://github.com/openupm/verdaccio-redis-storage/commit/4f83b1484ca6d5fd24e76a2c34009883163bea7f))
+
 # [0.1.0](https://github.com/openupm/verdaccio-redis-storage/compare/0.0.4...0.1.0) (2020-07-05)
 
 
