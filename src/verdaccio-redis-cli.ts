@@ -33,6 +33,7 @@ program
 program
   .command('dump [dir]')
   .description('dump Redis storage to dir')
+  .option('--no-tarball', 'ignore tarball files')
   .action(async function(dir: string, cmd: Command) {
     await runCommand(async () => {
       await dump(dir, cmd);

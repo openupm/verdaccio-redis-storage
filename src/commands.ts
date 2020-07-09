@@ -76,6 +76,7 @@ interface CommandContext {
   logger: Logger;
   redisConfig: ClientOpts;
   redisClient: IHandyRedis;
+  includeTarball: boolean;
 }
 
 /**
@@ -99,7 +100,7 @@ async function dumpDB({ db, dir }: CommandContext): Promise<void> {
  * @param db
  * @param dir
  */
-async function dumpPackages({ db, dir, redisClient }: CommandContext): Promise<void> {
+async function dumpPackages({ db, dir, redisClient, includeTarball }: CommandContext): Promise<void> {
   log.info('Dump packages...');
   const packages = await db.get();
   for (const pkgName of packages) {
@@ -112,15 +113,16 @@ async function dumpPackages({ db, dir, redisClient }: CommandContext): Promise<v
       if (fileName != 'stat') {
         const filePath = path.join(pkgDir, fileName);
         let fileContent = pkgContents[fileName];
-        log.info(`  write ${filePath}`);
         try {
           if (fileName == PKG_FILE_NAME) {
             // format package.json with 2 spaces indent
+            log.info(`  write ${filePath}`);
             const json = JSON.parse(fileContent);
             fileContent = JSON.stringify(json, null, 2);
             await fs.writeFileSync(filePath, fileContent);
-          } else {
+          } else if (includeTarball) {
             // write tarball
+            log.info(`  write ${filePath}`);
             const buf = Buffer.from(fileContent, 'base64');
             await fs.writeFileSync(filePath, buf);
           }
@@ -149,6 +151,7 @@ export async function dump(dir: string, cmd: Command): Promise<void> {
     logger: mutedLogger,
     redisConfig,
     redisClient,
+    includeTarball: cmd.tarball,
   };
   // parse dir
   const absDir = path.resolve(dir || '.');
