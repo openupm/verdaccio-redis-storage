@@ -1,0 +1,56 @@
+{
+  "name": "@myorg/mypkg2",
+  "versions": {
+    "1.0.0": {
+      "name": "@myorg/mypkg2",
+      "version": "1.0.0",
+      "_id": "@myorg/mypkg2@1.0.0",
+      "_nodeVersion": "12.14.1",
+      "_npmVersion": "6.13.4",
+      "dist": {
+        "integrity": "sha512-x7qQ88Jm7v6HyQ1esSSJK8sdrqvuWvdViofo/2aoPeW3OfwWfWgPktDDYyy3tk/k3gXE/30M/aG4rl4AzCaf/w==",
+        "shasum": "010576ff285694c224d790a8440383d902845885",
+        "tarball": "http://127.0.0.1:4873/@myorg/mypkg2/-/mypkg2-1.0.0.tgz"
+      },
+      "contributors": []
+    },
+    "1.0.1": {
+      "name": "@myorg/mypkg2",
+      "version": "1.0.1",
+      "_id": "@myorg/mypkg2@1.0.1",
+      "_nodeVersion": "12.14.1",
+      "_npmVersion": "6.13.4",
+      "dist": {
+        "integrity": "sha512-v5TjdEZ87a3xWdXUVWYtnpQukMf42kDRX4jyNhXXiZb6DCw9rEzk6BRdGC0HLGqrakISim5O4K1AA2R2lVdU8A==",
+        "shasum": "81b3966fd1d1c89e2f76a50fce7f1f16130ba1d5",
+        "tarball": "http://127.0.0.1:4873/@myorg/mypkg2/-/mypkg2-1.0.1.tgz"
+      },
+      "contributors": []
+    }
+  },
+  "time": {
+    "modified": "2020-07-09T10:43:03.891Z",
+    "created": "2020-07-09T10:43:01.944Z",
+    "1.0.0": "2020-07-09T10:43:01.944Z",
+    "1.0.1": "2020-07-09T10:43:03.891Z"
+  },
+  "users": {},
+  "dist-tags": {
+    "latest": "1.0.1"
+  },
+  "_uplinks": {},
+  "_distfiles": {},
+  "_attachments": {
+    "mypkg2-1.0.0.tgz": {
+      "shasum": "010576ff285694c224d790a8440383d902845885",
+      "version": "1.0.0"
+    },
+    "mypkg2-1.0.1.tgz": {
+      "shasum": "81b3966fd1d1c89e2f76a50fce7f1f16130ba1d5",
+      "version": "1.0.1"
+    }
+  },
+  "_rev": "6-36cc80e32aa18853",
+  "_id": "@myorg/mypkg2",
+  "readme": "ERROR: No README data found!"
+}

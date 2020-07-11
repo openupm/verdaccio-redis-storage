@@ -6,7 +6,7 @@ import { TEST_REDIS_PREFIX, REDIS_KEY, bufferStreamToBase64String } from '../src
 import StoragePluginManager from '../src/PackageStorage';
 
 import config from './mocks/config';
-import logger from './mocks/logger';
+import { logger } from './mocks/logger';
 import { pkg1 } from './mocks/pkgs';
 
 const TarballBase64 =

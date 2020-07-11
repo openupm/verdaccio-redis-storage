@@ -1,6 +1,7 @@
 import { Logger } from '@verdaccio/types';
+import log, { RootLogger, LogLevel } from 'loglevel';
 
-const logger: Logger = {
+export const logger: Logger = {
   warn: jest.fn(),
   error: jest.fn(),
   // fatal: jest.fn(),
@@ -11,4 +12,29 @@ const logger: Logger = {
   trace: jest.fn(),
 };
 
-export default logger;
+export const rootLogger: RootLogger = {
+  warn: jest.fn(),
+  error: jest.fn(),
+  // fatal: jest.fn(),
+  info: jest.fn(),
+  debug: jest.fn(),
+  trace: jest.fn(),
+  noConflict: jest.fn(),
+  getLogger: jest.fn(),
+  getLoggers: jest.fn(),
+  enableAll: jest.fn(),
+  disableAll: jest.fn(),
+  setLevel: jest.fn(),
+  methodFactory: jest.fn(),
+  setDefaultLevel: jest.fn(),
+  getLevel: jest.fn(),
+  log: jest.fn(),
+  levels: {
+    TRACE: 0,
+    DEBUG: 1,
+    INFO: 2,
+    WARN: 3,
+    ERROR: 4,
+    SILENT: 5,
+  },
+};
