@@ -6,7 +6,7 @@ import version from 'project-version';
 
 import { CommandCallback } from '../types';
 
-import { dump } from './commands';
+import { dump, restore } from './commands';
 
 const runCommand = async function(callback: CommandCallback): Promise<void> {
   try {
@@ -37,6 +37,17 @@ program
   .action(async function(dir: string, cmd: Command) {
     await runCommand(async () => {
       await dump(dir, cmd);
+    });
+  });
+
+program
+  .command('restore <dir>')
+  .description('restore Redis storage from dir')
+  .option('--no-tarball', 'ignore tarball files')
+  .option('--scan', 'scan package.json to fill database')
+  .action(async function(dir: string, cmd: Command) {
+    await runCommand(async () => {
+      await restore(dir, cmd);
     });
   });
 

@@ -90,13 +90,16 @@ export default class Database {
    *
    * @param name
    */
-  public async setStat(name: string): Promise<void> {
+  public async setStat(name: string, date?: Date): Promise<void> {
     try {
       this.logger.debug({ name }, '[verdaccio/redis] db.setStat for @{name}');
+      if (date === undefined) {
+        date = new Date();
+      }
       const stat: PackageStat = {
         name,
         path: name,
-        time: new Date().getTime(),
+        time: date.getTime(),
       };
       const data = JSON.stringify(stat);
       await this.redisClient.hset(REDIS_KEY.package + name, REDIS_FIELD.stat, data);

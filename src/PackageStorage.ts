@@ -15,10 +15,8 @@ import { getNotFound, getConflict, getBadData, getBadRequest } from '@verdaccio/
 import { IHandyRedis } from 'handy-redis';
 import { ClientOpts } from 'redis';
 
-import { REDIS_KEY, wrapError, bufferStreamToBase64String } from './utils';
+import { REDIS_KEY, wrapError, bufferStreamToBase64String, PACKAGE_JSON_FILE } from './utils';
 import Database from './db';
-
-export const PKG_FILE_NAME = 'package.json';
 
 export default class StoragePluginManager implements ILocalPackageManager {
   public logger: Logger;
@@ -53,7 +51,7 @@ export default class StoragePluginManager implements ILocalPackageManager {
     this.logger.debug({ pkgName }, '[verdaccio/redis] createPackage @{pkgName}');
     const key = REDIS_KEY.package + pkgName;
     this.redisClient
-      .hget(key, PKG_FILE_NAME)
+      .hget(key, PACKAGE_JSON_FILE)
       .then(data => {
         // Check existence
         if (data === null) {
@@ -143,7 +141,7 @@ export default class StoragePluginManager implements ILocalPackageManager {
       this.logger.debug({ pkgName }, '[verdaccio/redis] createPackage @{pkgName}');
       const key = REDIS_KEY.package + pkgName;
       // Check exist package
-      const data = await this.redisClient.hget(key, PKG_FILE_NAME);
+      const data = await this.redisClient.hget(key, PACKAGE_JSON_FILE);
       if (data !== null) {
         throw getConflict(`package ${pkgName} already exist`);
       }
@@ -171,7 +169,7 @@ export default class StoragePluginManager implements ILocalPackageManager {
       this.logger.debug({ pkgName }, '[verdaccio/redis] savePackage @{pkgName}');
       const key = REDIS_KEY.package + pkgName;
       const data = JSON.stringify(pkg);
-      await this.redisClient.hset(key, PKG_FILE_NAME, data);
+      await this.redisClient.hset(key, PACKAGE_JSON_FILE, data);
       await this.db.setStat(pkgName);
     } catch (err) {
       throw wrapError(err);
@@ -193,7 +191,7 @@ export default class StoragePluginManager implements ILocalPackageManager {
     try {
       this.logger.debug({ pkgName }, '[verdaccio/redis] readPackage @{pkgName}');
       const key = REDIS_KEY.package + pkgName;
-      const data = await this.redisClient.hget(key, PKG_FILE_NAME);
+      const data = await this.redisClient.hget(key, PACKAGE_JSON_FILE);
       if (data === null) {
         throw getNotFound(`package ${pkgName}'s package.json not found`);
       }

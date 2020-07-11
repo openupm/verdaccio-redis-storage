@@ -52,6 +52,10 @@ export const REDIS_FIELD = {
   stat: 'stat',
 };
 
+export const VERDACCIO_DB_FILE = '.verdaccio-db.json';
+
+export const PACKAGE_JSON_FILE = 'package.json';
+
 /**
  * Wrap an generic error to a verdaccio error
  *
