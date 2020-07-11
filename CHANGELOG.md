@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/openupm/verdaccio-redis-storage/compare/0.1.1...0.2.0) (2020-07-11)
+
+
+### Features
+
+* cli restore command ([3aa8874](https://github.com/openupm/verdaccio-redis-storage/commit/3aa8874873a8481e0b17ede4b4714c56829fdb91))
+
 ## [0.1.1](https://github.com/openupm/verdaccio-redis-storage/compare/0.1.0...0.1.1) (2020-07-09)
 
 
