@@ -44,6 +44,8 @@ Data are stored with prefix `ve:` (`testve:` for test mode). You can optionally 
 
 With verdaccio-redis CLI, you can exchange data between redis storage and file system.
 
+> Dump and restore commmands don't support token yet. 
+
 Goto the package folder where you installed the plugin, run `./node_modules/verdaccio-redis-storage/bin/verdaccio-redis`.
 
 ```sh
