@@ -1,3 +1,11 @@
+## [0.2.3](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.2...0.2.3) (2020-07-26)
+
+
+### Bug Fixes
+
+* broken tests ([adde00d](https://github.com/openupm/verdaccio-redis-storage/commit/adde00d177d90f06e507424c3af15dffab0fc546))
+* search api ([541e653](https://github.com/openupm/verdaccio-redis-storage/commit/541e6534ccac7611650d679d9354efda604c0130))
+
 ## [0.2.2](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.1...0.2.2) (2020-07-26)
 
 
