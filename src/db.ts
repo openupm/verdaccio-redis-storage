@@ -52,7 +52,7 @@ export default class Database {
    */
   public async search(validate: (name: string) => boolean): Promise<string[]> {
     try {
-      this.logger.debug({ name }, '[verdaccio/redis] db.search for @{name}');
+      this.logger.debug({}, '[verdaccio/redis] db.search');
       const packages = await this.get();
       const result = packages.filter(validate);
       return result;

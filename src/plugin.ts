@@ -60,16 +60,39 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
    * @param validateName
    */
   public search(onPackage: onSearchPackage, onEnd: onEndSearchPackage, validateName: onValidatePackage): void {
+    this.logger.trace({}, '[verdaccio/redis] RedisStorage.search');
     this.db
       .search(validateName)
       .then(pkgs => Promise.all(pkgs.map(pkg => this.getStat(pkg, onPackage))))
-      .then(() => onEnd(null))
-      .catch(err => onEnd(err));
+      .then(() => {
+        // this.logger.trace({}, '[verdaccio/redis] RedisStorage.search onEnd');
+        onEnd(null);
+      })
+      .catch(err => {
+        // this.logger.trace({ err }, '[verdaccio/redis] RedisStorage.search onEnd with error: @{err}');
+        onEnd(err);
+      });
   }
 
-  private async getStat(name: string, onPackage: Callback): Promise<void> {
-    const stat = await this.db.getStat(name);
-    onPackage(stat);
+  /**
+   * Get the stat object to feed onSearchPackage callback. A stat object is an index-like object with less memory and bandwidth cost.
+   * @param name
+   * @param onPackage
+   */
+  private async getStat(name: string, onPackage: onSearchPackage): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stat: any = await this.db.getStat(name);
+    // this.logger.trace({ name, stat }, '[verdaccio/redis] RedisStorage.getStat @{name} result: @{stat}');
+    return new Promise((resolve, reject) => {
+      onPackage(stat, err => {
+        // this.logger.error({ err }, '[verdaccio/redis] RedisStorage.getStat onPackage callback @{err}');
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
   }
 
   /**
