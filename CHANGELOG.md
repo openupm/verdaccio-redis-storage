@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.0...0.2.1) (2020-07-26)
+
+
+### Bug Fixes
+
+* lib folder is ignored in the package dist ([02187b9](https://github.com/openupm/verdaccio-redis-storage/commit/02187b9a3f6543e0550532c2aa96dca94ca39b8d))
+
 # [0.2.0](https://github.com/openupm/verdaccio-redis-storage/compare/0.1.1...0.2.0) (2020-07-11)
 
 
