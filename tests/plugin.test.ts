@@ -212,8 +212,9 @@ describe('redis storage unit test', () => {
               storage.createPackage(pkg1.name, pkg1, err => {
                 expect(err).toBeNull();
                 redisStorage.search(
-                  pkg => {
+                  (pkg, cb) => {
                     expect(pkg.name).toEqual(pkg1.name);
+                    cb(null);
                   },
                   err => {
                     expect(err).toBeNull();
