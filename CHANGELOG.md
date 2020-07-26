@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.1...0.2.2) (2020-07-26)
+
+
+### Bug Fixes
+
+* **ci:** build before bundle ([df5a569](https://github.com/openupm/verdaccio-redis-storage/commit/df5a569c2f77fb5c2d3bf0a6c16a31000b9b2966))
+
 ## [0.2.1](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.0...0.2.1) (2020-07-26)
 
 
