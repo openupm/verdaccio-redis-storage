@@ -27,6 +27,7 @@ export interface ICommandContext {
   logger: RootLogger;
   redisClient: IHandyRedis;
   includeTarball: boolean;
+  dbName: string;
   scan?: boolean;
 }
 
@@ -102,6 +103,7 @@ async function getCommandContext(dir: string, cmd: Command): Promise<ICommandCon
     redisClient,
     includeTarball: cmd.tarball,
     scan: cmd.scan,
+    dbName: cmd.dbname || VERDACCIO_DB_FILE,
   };
   // parse dir
   const absDir = path.resolve(dir || '.');
@@ -120,14 +122,14 @@ async function getCommandContext(dir: string, cmd: Command): Promise<ICommandCon
  * @param db
  * @param dir
  */
-async function dumpDB({ db, dir, logger }: ICommandContext): Promise<void> {
-  logger.info('Dump .verdaccio-db.json...');
+async function dumpDB({ db, dbName, dir, logger }: ICommandContext): Promise<void> {
+  logger.info('Dump database...');
   const secret = await db.getSecret();
   const packages = await db.get();
   packages.sort();
   const data = { list: packages, secret };
   const json = JSON.stringify(data);
-  const filePath = path.join(dir, VERDACCIO_DB_FILE);
+  const filePath = path.join(dir, dbName);
   logger.info(`  write ${filePath}`);
   await fs.writeFile(filePath, json, { encoding: 'utf8' });
 }
@@ -223,10 +225,10 @@ async function scanPackageJson(dir, org?: string): Promise<string[]> {
  * @param db
  * @param dir
  */
-async function restoreDB({ db, dir, scan, logger }: ICommandContext): Promise<string[]> {
-  logger.info('Restore database from .verdaccio-db.json...');
+async function restoreDB({ db, dbName, dir, scan, logger }: ICommandContext): Promise<string[]> {
+  logger.info('Restore database...');
   // parse dir
-  const dbFilePath = path.join(dir, '.verdaccio-db.json');
+  const dbFilePath = path.join(dir, dbName);
   logger.info(`  path: ${dbFilePath}`);
   const data = await fs.readFile(dbFilePath, { encoding: 'utf8' });
   const json = JSON.parse(data);

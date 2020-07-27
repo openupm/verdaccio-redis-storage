@@ -54,6 +54,7 @@ describe('redis storage CLI test', () => {
       redisClient: redisStorage.redisClient,
       includeTarball: true,
       scan: true,
+      dbName: '.verdaccio-db.json',
     };
     await restoreWithContext(restoreContext);
     const packages = await redisStorage.db.get();
@@ -68,6 +69,7 @@ describe('redis storage CLI test', () => {
       redisClient: redisStorage.redisClient,
       includeTarball: true,
       scan: true,
+      dbName: '.verdaccio-db.json',
     };
     await restoreWithContext(restoreContext);
     const dumpContext: ICommandContext = {
@@ -77,6 +79,7 @@ describe('redis storage CLI test', () => {
       redisClient: redisStorage.redisClient,
       includeTarball: true,
       scan: true,
+      dbName: '.verdaccio-db.json',
     };
     await dumpWithContext(dumpContext);
     const result = dircompare.compareSync(restoreDir, dumpDir, {});
