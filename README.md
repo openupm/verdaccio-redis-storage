@@ -44,7 +44,7 @@ Data are stored with prefix `ve:` (`testve:` for test mode). You can optionally 
 
 With verdaccio-redis CLI, you can exchange data between redis storage and file system.
 
-> Dump and restore commmands don't support token yet. 
+> Dump and restore commmands don't support token yet.
 
 Goto the package folder where you installed the plugin, run `./node_modules/verdaccio-redis-storage/bin/verdaccio-redis`.
 
@@ -86,10 +86,13 @@ dump Redis storage to dir
 
 Options:
   --no-tarball  ignore tarball files
+  --dbname      database filename (default: .verdaccio-db.json)
   -h, --help    display help for command
 ```
 
-Use `--no-tarball` to ignore export tarball files to the file system. See [serving tarball](#serving-tarball) for details.
+Use `--no-tarball` option to ignore export tarball files to the file system. See [serving tarball](#serving-tarball) for details.
+
+Use `--dbname` option to specify a different database filename to write. i.e. for Verdaccio S3 storage, the filename is `verdaccio-s3-db.json`.
 
 ### Restore redis storage from file system
 
@@ -103,13 +106,16 @@ restore Redis storage from dir
 
 Options:
   --no-tarball  ignore tarball files
+  --dbname      database filename (default: .verdaccio-db.json)
   --scan        scan package.json to fill database
   -h, --help    display help for command
 ```
 
-Use `--no-tarball` to ignore import tarball files to the Redis storage. See [serving tarball](#serving-tarball) for details.
+Use `--no-tarball` option to ignore import tarball files to the Redis storage. See [serving tarball](#serving-tarball) for details.
 
-Use `--scan` option to scan package.json of the given directory to fill the Redis database. This is only useful when you want to convert all uplink packages as local packages, which is a rare usage.
+Use `--dbname` option to specify a different database filename to read. i.e. for Verdaccio S3 storage, the filename is `verdaccio-s3-db.json`.
+
+Use `--scan` option to scan the `package.json` file of sub-folders to fill the database. A rare usage to convert cached uplink packages to local packages (uplink packages are not stored to database by defaut).
 
 ## Development
 
