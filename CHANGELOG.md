@@ -1,3 +1,10 @@
+## [0.2.4](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.3...0.2.4) (2020-07-27)
+
+
+### Bug Fixes
+
+* **cli:** add option to specify database filename ([8c1c861](https://github.com/openupm/verdaccio-redis-storage/commit/8c1c861169680f1ca26d1d3efc506acfa62f5852))
+
 ## [0.2.3](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.2...0.2.3) (2020-07-26)
 
 
