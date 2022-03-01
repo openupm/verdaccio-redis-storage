@@ -1,4 +1,7 @@
 # verdaccio-redis-storage
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![npm](https://img.shields.io/npm/v/verdaccio-redis-storage) ![NPM](https://img.shields.io/npm/l/verdaccio-redis-storage) ![npm](https://img.shields.io/npm/dm/verdaccio-redis-storage)
 
@@ -136,3 +139,23 @@ For more information about any of these commands run `npm run ${task} -- --help`
 
 - [generator-verdaccio-plugin](https://github.com/verdaccio/generator-verdaccio-plugin), verdaccio plugin generator based in [Yeoman](http://yeoman.io/) aims to help to scaffold plugins development.
 - [verdaccio-minio](https://github.com/barolab/verdaccio-minio), a good example of verdaccio storage plugin.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://littlebigfun.com"><img src="https://avatars.githubusercontent.com/u/125390?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Favo Yang</b></sub></a><br /><a href="https://github.com/openupm/verdaccio-redis-storage/commits?author=favoyang" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
