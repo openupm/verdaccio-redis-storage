@@ -13,7 +13,11 @@ const runCommand = async function(callback: CommandCallback): Promise<void> {
     await callback();
     process.exit(0);
   } catch (err) {
-    log.error('Error: ' + err.message);
+    if (err instanceof Error) {
+      log.error('Error: ' + err.message);
+    } else {
+      log.error('Error: ' + String(err));
+    }
     process.exit(1);
   }
 };

@@ -61,11 +61,13 @@ export const PACKAGE_JSON_FILE = 'package.json';
  *
  * @param error
  */
-export function wrapError(err: Error): VerdaccioError {
-  if ('code' in err) {
-    return err;
+export function wrapError(err: unknown): VerdaccioError {
+  if (err instanceof Error) {
+    if ('code' in err) return err;
+    return getInternalError(err.message);
+  } else {
+    return getInternalError(String(err));
   }
-  return getInternalError(err.message);
 }
 
 /**
@@ -79,11 +81,12 @@ export function parseConfigFile(configPath: string): any {
       return YAML.safeLoad(fs.readFileSync(absPath, 'utf8'));
     }
     return require(absPath);
-  } catch (e) {
-    if (e.code !== 'MODULE_NOT_FOUND') {
-      e.message = 'failed to load verdaccio configuration file.';
+  } catch (err) {
+    const error = wrapError(err);
+    if (error.code !== 'MODULE_NOT_FOUND') {
+      error.message = 'failed to load verdaccio configuration file.';
     }
-    throw new Error(e);
+    throw error;
   }
 }
 
