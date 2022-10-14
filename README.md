@@ -25,7 +25,10 @@ store:
     ...
 ```
 
-See more in https://github.com/NodeRedis/node-redis#options-object-properties.
+See more in https://github.com/luin/ioredis#connect-to-redis
+
+> **Note**
+> Since v0.2.5, verdaccio-redis-storage changed the redis library from node-redis to [ioredis](https://github.com/luin/ioredis).
 
 ## Serving tarball
 

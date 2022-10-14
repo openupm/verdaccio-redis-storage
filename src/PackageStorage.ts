@@ -12,8 +12,8 @@ import {
 } from '@verdaccio/types';
 import { UploadTarball, ReadTarball } from '@verdaccio/streams';
 import { getNotFound, getConflict, getBadData, getBadRequest } from '@verdaccio/commons-api';
-import { IHandyRedis } from 'handy-redis';
-import { ClientOpts } from 'redis';
+import Redis from "ioredis";
+import { RedisOptions } from 'ioredis';
 
 import { REDIS_KEY, wrapError, bufferStreamToBase64String, PACKAGE_JSON_FILE } from './utils';
 import Database from './db';
@@ -21,11 +21,11 @@ import Database from './db';
 export default class StoragePluginManager implements ILocalPackageManager {
   public logger: Logger;
   public packageName: string;
-  public config: ClientOpts;
-  public redisClient: IHandyRedis;
+  public config: RedisOptions;
+  public redisClient: Redis;
   public db: Database;
 
-  public constructor(config: ClientOpts, packageName: string, logger: Logger, redisClient: IHandyRedis, db: Database) {
+  public constructor(config: RedisOptions, packageName: string, logger: Logger, redisClient: Redis, db: Database) {
     this.logger = logger;
     this.packageName = packageName;
     this.config = config;

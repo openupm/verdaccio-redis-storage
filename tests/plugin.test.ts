@@ -14,7 +14,7 @@ const TarballBase64 =
 const TarballBuffer = new Buffer(TarballBase64, 'base64');
 
 describe('redis storage unit test', () => {
-  let redisStorage: RedisStorage = null;
+  let redisStorage: RedisStorage;
   beforeEach(() => {
     const defaultConfig = { logger, config: null };
     redisStorage = new RedisStorage(config, defaultConfig);
@@ -26,7 +26,7 @@ describe('redis storage unit test', () => {
     for (const key of keysToDelete) {
       await redisStorage.redisClient.del(key);
     }
-    redisStorage.redisClient.redis.end(true);
+    redisStorage.redisClient.quit();
     jest.clearAllMocks();
   });
 
@@ -257,7 +257,7 @@ describe('redis storage unit test', () => {
   });
 
   describe('package storage tests', () => {
-    let packageStorage: IPackageStorage = null;
+    let packageStorage: IPackageStorage;
 
     beforeEach(() => {
       packageStorage = redisStorage.getPackageStorage(pkg1.name);

@@ -11,15 +11,14 @@
     "node": ">=10"
   },
   "dependencies": {
-    "@verdaccio/commons-api": "^8.5.0",
-    "@verdaccio/streams": "^8.5.2",
-    "commander": "^5.1.0",
-    "handy-redis": "^1.8.3",
-    "js-yaml": "^3.14.0",
-    "loglevel": "^1.6.8",
+    "@verdaccio/commons-api": "^10.2.0",
+    "@verdaccio/streams": "^10.2.0",
+    "commander": "^9.4.1",
+    "ioredis": "^5.2.3",
+    "js-yaml": "^4.1.0",
+    "loglevel": "^1.8.0",
     "mkdirp": "^1.0.4",
-    "project-version": "^1.2.0",
-    "redis": "^3.0.2"
+    "project-version": "^2.0.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
@@ -31,14 +30,14 @@
     "@verdaccio/babel-preset": "^8.5.0",
     "@verdaccio/eslint-config": "^8.5.0",
     "@verdaccio/types": "^8.5.2",
-    "cross-env": "^7.0.2",
-    "dir-compare": "^2.3.0",
+    "cross-env": "^7.0.3",
+    "dir-compare": "^4.0.0",
     "eslint": "^6.6.0",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.1.1",
-    "typescript": "^3.7.2"
+    "typescript": "^4.8.4"
   },
   "keywords": [
     "verdaccio-redis-storage",

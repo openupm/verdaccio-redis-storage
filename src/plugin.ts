@@ -11,7 +11,7 @@ import {
   onSearchPackage,
   onValidatePackage,
 } from '@verdaccio/types';
-import { IHandyRedis } from 'handy-redis';
+import Redis from "ioredis";
 
 import { RedisConfig } from '../types/index';
 
@@ -23,7 +23,7 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
   public config: RedisConfig & Config;
   public version?: string;
   public logger: Logger;
-  public redisClient: IHandyRedis;
+  public redisClient: Redis;
   public db: Database;
 
   public constructor(config: RedisConfig, options: PluginOptions<RedisConfig>) {

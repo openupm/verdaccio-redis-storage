@@ -3,11 +3,11 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 import log, { RootLogger } from 'loglevel';
-import { Command } from 'commander';
-import { ClientOpts } from 'redis';
+import { Command, OptionValues } from 'commander';
+import { RedisOptions } from 'ioredis';
 import { Logger } from '@verdaccio/types';
 import mkdirp from 'mkdirp';
-import { IHandyRedis } from 'handy-redis';
+import Redis from "ioredis";
 
 import {
   parseConfigFile,
@@ -25,7 +25,7 @@ export interface ICommandContext {
   db: Database;
   dir: string;
   logger: RootLogger;
-  redisClient: IHandyRedis;
+  redisClient: Redis;
   includeTarball: boolean;
   dbName: string;
   scan?: boolean;
@@ -35,10 +35,10 @@ export interface ICommandContext {
  * Parse redis config from command options
  * @param cmd
  */
-function parseRedisConfig(cmd: Command): ClientOpts {
-  if (cmd.parent.config) {
-    const config = parseConfigFile(cmd.parent.config);
-    log.info(`Load configuration at ${cmd.parent.config}`);
+function parseRedisConfig(opts: OptionValues): string | RedisOptions {
+  if (opts.config) {
+    const config = parseConfigFile(opts.config);
+    log.info(`Load configuration at ${opts.config}`);
     if (config.store) {
       if (config.store['redis-storage']) {
         // parse store.redis-storage
@@ -55,14 +55,14 @@ function parseRedisConfig(cmd: Command): ClientOpts {
     // return empty config
     return {};
   } else {
-    return {
-      host: cmd.parent.host,
-      port: cmd.parent.port ? parseInt(cmd.parent.port) : undefined,
-      path: cmd.parent.socket,
-      url: cmd.parent.url,
-      db: cmd.parent.db,
-      password: cmd.parent.password,
-      prefix: cmd.parent.prefix,
+    if (opts.socket) return opts.socket;
+    if (opts.url) return opts.url;
+    else return {
+      host: opts.host,
+      port: opts.port ? parseInt(opts.port) : undefined,
+      db: opts.db,
+      password: opts.password,
+      keyPrefix: opts.prefix
     };
   }
 }
@@ -90,10 +90,10 @@ function getMutedLogger(): Logger {
  * @param dir
  * @param cmd
  */
-async function getCommandContext(dir: string, cmd: Command): Promise<ICommandContext> {
+async function getCommandContext(dir: string, opts: OptionValues): Promise<ICommandContext> {
   // parse Redis config
   const mutedLogger = getMutedLogger();
-  const redisConfig = parseRedisConfig(cmd);
+  const redisConfig = parseRedisConfig(opts);
   const redisClient = redisCreateClient(redisConfig, mutedLogger);
   const db = new Database(redisClient, mutedLogger);
   const commandContext = {
@@ -101,9 +101,9 @@ async function getCommandContext(dir: string, cmd: Command): Promise<ICommandCon
     dir,
     logger: log,
     redisClient,
-    includeTarball: cmd.tarball,
-    scan: cmd.scan,
-    dbName: cmd.dbname || VERDACCIO_DB_FILE,
+    includeTarball: opts.tarball,
+    scan: opts.scan,
+    dbName: opts.dbname || VERDACCIO_DB_FILE,
   };
   // parse dir
   const absDir = path.resolve(dir || '.');
@@ -183,8 +183,8 @@ export async function dumpWithContext(commandContext: ICommandContext): Promise<
  * @param dir
  * @param cmd
  */
-export async function dump(dir: string, cmd: Command): Promise<void> {
-  const commandContext = await getCommandContext(dir, cmd);
+export async function dump(dir: string, opts: OptionValues): Promise<void> {
+  const commandContext = await getCommandContext(dir, opts);
   await dumpWithContext(commandContext);
 }
 
@@ -316,7 +316,7 @@ export async function restoreWithContext(commandContext: ICommandContext): Promi
  * @param dir
  * @param cmd
  */
-export async function restore(dir: string, cmd: Command): Promise<void> {
-  const commandContext = await getCommandContext(dir, cmd);
+export async function restore(dir: string, opts: OptionValues): Promise<void> {
+  const commandContext = await getCommandContext(dir, opts);
   await restoreWithContext(commandContext);
 }
