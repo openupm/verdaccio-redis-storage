@@ -1,5 +1,5 @@
 import { Logger, Token, TokenFilter } from '@verdaccio/types';
-import { IHandyRedis } from 'handy-redis';
+import Redis from "ioredis";
 
 import { PackageStat } from '../types';
 
@@ -10,10 +10,10 @@ import { REDIS_KEY, wrapError, REDIS_FIELD } from './utils';
  * and a list of packages stored in Verdaccio.
  */
 export default class Database {
-  private redisClient: IHandyRedis;
+  private redisClient: Redis;
   private logger: Logger;
 
-  public constructor(redisClient: IHandyRedis, logger: Logger) {
+  public constructor(redisClient: Redis, logger: Logger) {
     this.redisClient = redisClient;
     this.logger = logger;
   }

@@ -3,10 +3,10 @@ import path from 'path';
 import os from 'os';
 
 import rimraf from 'rimraf';
-import dircompare from 'dir-compare';
+import { compareSync } from 'dir-compare';
 
 import RedisStorage from '../src/plugin';
-import { TEST_REDIS_PREFIX, REDIS_KEY, bufferStreamToBase64String } from '../src/utils';
+import { TEST_REDIS_PREFIX } from '../src/utils';
 import { restoreWithContext, ICommandContext, dumpWithContext } from '../src/commands';
 
 import config from './mocks/config';
@@ -14,12 +14,12 @@ import { logger, rootLogger } from './mocks/logger';
 
 describe('redis storage CLI test', () => {
   const restoreDir = path.resolve(__dirname, './fixtures/example-fs');
-  let dumpDir: string = null;
-  let redisStorage: RedisStorage = null;
+  let dumpDir: string;
+  let redisStorage: RedisStorage;
 
   beforeEach(done => {
     // Create redis storage
-    const defaultConfig = { logger, config: null };
+    const defaultConfig = { logger, config };
     redisStorage = new RedisStorage(config, defaultConfig);
     // Create dump dir
     const tempDirPrefix = path.join(os.tmpdir(), 'verdaccio-redis-storage-');
@@ -38,7 +38,7 @@ describe('redis storage CLI test', () => {
     for (const key of keysToDelete) {
       await redisStorage.redisClient.del(key);
     }
-    redisStorage.redisClient.redis.end(true);
+    redisStorage.redisClient.quit();
     // Clean dump path
     if (dumpDir !== null) {
       rimraf.sync(dumpDir);
@@ -82,10 +82,9 @@ describe('redis storage CLI test', () => {
       dbName: '.verdaccio-db.json',
     };
     await dumpWithContext(dumpContext);
-    const result = dircompare.compareSync(restoreDir, dumpDir, {});
-    if (!result.same) {
+    const result = compareSync(restoreDir, dumpDir, {});
+    if (!result.same && result.diffSet) {
       result.diffSet.forEach(dif =>
-        // eslint-disable-next-line no-console
         console.log(
           'Difference - name1: %s, type1: %s, name2: %s, type2: %s, state: %s',
           dif.name1,

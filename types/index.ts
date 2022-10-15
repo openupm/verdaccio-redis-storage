@@ -1,8 +1,8 @@
 import { Config } from '@verdaccio/types';
-import { ClientOpts } from 'redis';
+import { RedisOptions } from 'ioredis';
 
 // See https://github.com/NodeRedis/node-redis#options-object-properties
-export interface RedisConfig extends Config, ClientOpts {}
+export interface RedisConfig extends Config, RedisOptions {}
 
 export type CommandCallback = () => Promise<void>;
 

@@ -1,36 +1,38 @@
 import fs from 'fs';
 import path from 'path';
 import { Readable } from 'stream';
-
 import { Logger } from '@verdaccio/types';
-import { createClient, ClientOpts } from 'redis';
-import { createHandyClient, IHandyRedis } from 'handy-redis';
+import { default as Redis, RedisOptions } from "ioredis";
 import { VerdaccioError, getInternalError } from '@verdaccio/commons-api';
 import YAML from 'js-yaml';
 
-export function redisCreateClient(config: ClientOpts, logger: Logger): IHandyRedis {
-  const client = createClient(config);
-
+export function redisCreateClient(config: string | RedisOptions, logger: Logger): Redis {
+  const client = new Redis(config as any);
   client.on('connect', function() {
     logger.info({}, '[verdaccio/redis] connected to redis server');
   });
 
-  client.on('reconnecting', function(context) {
-    const delay = context.delay;
-    const attempt = context.attempt;
-    logger.info({ delay, attempt }, '[verdaccio/redis] reconnecting in @{delay}ms, attempt #@{attempt}');
+  client.on("ready", function() {
+    logger.info("[verdaccio/redis] ready to use");
+  });
+
+  client.on('reconnecting', function(delay) {
+    logger.info({}, '[verdaccio/redis] reconnecting in @{delay}ms');
   });
 
   client.on('end', function() {
     logger.info({}, '[verdaccio/redis] redis connection end');
   });
 
-  client.on('error', function(err) {
-    logger.error({ err }, '[verdaccio/redis] redis error @{err}');
+  client.on('close', function() {
+    logger.info({}, '[verdaccio/redis] redis connection close');
   });
 
-  const handyClient = createHandyClient(client);
-  return handyClient;
+  client.on('error', function(err) {
+    logger.error({ err }, '[verdaccio/redis] redis error');
+  });
+
+  return client;
 }
 
 export const REDIS_PREFIX = 've:';

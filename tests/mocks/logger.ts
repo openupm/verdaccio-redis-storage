@@ -37,4 +37,6 @@ export const rootLogger: RootLogger = {
     ERROR: 4,
     SILENT: 5,
   },
+  resetLevel: function (): void {},
+  default: new Object() as RootLogger
 };
