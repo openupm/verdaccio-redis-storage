@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/openupm/verdaccio-redis-storage/compare/1.0.0...1.0.1) (2022-10-15)
+
+
+### Bug Fixes
+
+* **ci:** add package-lock.json to semantic-release/git assets ([a89cfa5](https://github.com/openupm/verdaccio-redis-storage/commit/a89cfa598ce9703651c58b7418322dfc2d3d2390))
+
 # [1.0.0](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.4...1.0.0) (2022-10-15)
 
 
