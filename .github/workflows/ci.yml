@@ -8,15 +8,8 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
-        redis: [5.x]
-    name: test - redis ${{ matrix.redis }}, node ${{ matrix.node-version }}
+    name: test - node ${{ matrix.node-version }}
     steps:
-    - name: setup redis
-      uses: shogo82148/actions-setup-redis@v1
-      with:
-        redis-version: ${{ matrix.redis }}
-    - name: ping redis
-      run: redis-cli ping
     - uses: actions/checkout@v1
     - name: set node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
