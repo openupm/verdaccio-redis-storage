@@ -26,10 +26,13 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
   public redisClient: Redis;
   public db: Database;
 
-  public constructor(config: RedisConfig, options: PluginOptions<RedisConfig>) {
+  public constructor(config: RedisConfig, options: PluginOptions<RedisConfig>, redisClient?: Redis) {
     this.config = config;
     this.logger = options.logger;
-    this.redisClient = redisCreateClient(this.config, this.logger);
+    if (redisClient !== undefined)
+      this.redisClient = redisClient;
+    else
+      this.redisClient = redisCreateClient(this.config, this.logger);
     this.db = new Database(this.redisClient, this.logger);
   }
 

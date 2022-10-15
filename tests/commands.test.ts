@@ -5,6 +5,7 @@ import os from 'os';
 import rimraf from 'rimraf';
 import { compareSync } from 'dir-compare';
 
+import Redis from "ioredis-mock";
 import RedisStorage from '../src/plugin';
 import { TEST_REDIS_PREFIX } from '../src/utils';
 import { restoreWithContext, ICommandContext, dumpWithContext } from '../src/commands';
@@ -20,7 +21,8 @@ describe('redis storage CLI test', () => {
   beforeEach(done => {
     // Create redis storage
     const defaultConfig = { logger, config };
-    redisStorage = new RedisStorage(config, defaultConfig);
+    const redisClient = new Redis(config);
+    redisStorage = new RedisStorage(config, defaultConfig, redisClient);
     // Create dump dir
     const tempDirPrefix = path.join(os.tmpdir(), 'verdaccio-redis-storage-');
     fs.mkdtemp(tempDirPrefix, (err, folder) => {

@@ -2,6 +2,7 @@ import { IPackageStorage, ILocalPackageManager, Token } from '@verdaccio/types';
 import { HTTP_STATUS, VerdaccioError, getBadRequest, getInternalError } from '@verdaccio/commons-api';
 
 import RedisStorage from '../src/plugin';
+import Redis from "ioredis-mock";
 import { TEST_REDIS_PREFIX, REDIS_KEY, bufferStreamToBase64String } from '../src/utils';
 import StoragePluginManager from '../src/PackageStorage';
 
@@ -16,8 +17,9 @@ const TarballBuffer = new Buffer(TarballBase64, 'base64');
 describe('redis storage unit test', () => {
   let redisStorage: RedisStorage;
   beforeEach(() => {
-    const defaultConfig = { logger, config: null };
-    redisStorage = new RedisStorage(config, defaultConfig);
+    const defaultConfig = { logger, config };
+    const redisClient = new Redis(config);
+    redisStorage = new RedisStorage(config, defaultConfig, redisClient);
   });
 
   afterEach(async () => {
