@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.4...1.0.0) (2022-10-15)
+
+
+### Code Refactoring
+
+* replace node-redis with ioredis ([ae05793](https://github.com/openupm/verdaccio-redis-storage/commit/ae0579304b4f09c7a2762aebffd9d1089ae49fb9))
+
+
+### BREAKING CHANGES
+
+* ioredis connection options are slightly different from node-redis
+
 ## [0.2.4](https://github.com/openupm/verdaccio-redis-storage/compare/0.2.3...0.2.4) (2020-07-27)
 
 
