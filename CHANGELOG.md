@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/openupm/verdaccio-redis-storage/compare/1.0.1...1.0.2) (2022-10-15)
+
+
+### Bug Fixes
+
+* use mock-ioredis for testing ([7946e1d](https://github.com/openupm/verdaccio-redis-storage/commit/7946e1d22edc08b2c147cc6828568c44b7f40882))
+
 ## [1.0.1](https://github.com/openupm/verdaccio-redis-storage/compare/1.0.0...1.0.1) (2022-10-15)
 
 
