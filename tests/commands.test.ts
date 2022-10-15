@@ -7,7 +7,6 @@ import { compareSync } from 'dir-compare';
 
 import Redis from "ioredis-mock";
 import RedisStorage from '../src/plugin';
-import { TEST_REDIS_PREFIX } from '../src/utils';
 import { restoreWithContext, ICommandContext, dumpWithContext } from '../src/commands';
 
 import config from './mocks/config';
@@ -36,11 +35,8 @@ describe('redis storage CLI test', () => {
 
   afterEach(async () => {
     // Clean redis
-    const keysToDelete = await redisStorage.redisClient.keys(TEST_REDIS_PREFIX + '*');
-    for (const key of keysToDelete) {
-      await redisStorage.redisClient.del(key);
-    }
-    redisStorage.redisClient.quit();
+    await redisStorage.redisClient.flushdb();
+    await redisStorage.redisClient.quit();
     // Clean dump path
     if (dumpDir !== null) {
       rimraf.sync(dumpDir);

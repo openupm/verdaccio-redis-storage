@@ -3,7 +3,7 @@ import { HTTP_STATUS, VerdaccioError, getBadRequest, getInternalError } from '@v
 
 import RedisStorage from '../src/plugin';
 import Redis from "ioredis-mock";
-import { TEST_REDIS_PREFIX, REDIS_KEY, bufferStreamToBase64String } from '../src/utils';
+import { REDIS_KEY, bufferStreamToBase64String } from '../src/utils';
 import StoragePluginManager from '../src/PackageStorage';
 
 import config from './mocks/config';
@@ -24,11 +24,8 @@ describe('redis storage unit test', () => {
 
   afterEach(async () => {
     // Clean and end redis
-    const keysToDelete = await redisStorage.redisClient.keys(TEST_REDIS_PREFIX + '*');
-    for (const key of keysToDelete) {
-      await redisStorage.redisClient.del(key);
-    }
-    redisStorage.redisClient.quit();
+    await redisStorage.redisClient.flushdb();
+    await redisStorage.redisClient.quit();
     jest.clearAllMocks();
   });
 
