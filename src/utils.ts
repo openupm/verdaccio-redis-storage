@@ -14,6 +14,8 @@ export function redisCreateClient(config: string | RedisOptions, logger: Logger)
 
   client.on("ready", function () {
     logger.info("[verdaccio/redis] ready to use");
+    logger.info("[verdaccio/redis] set enableOfflineQueue to false to make following web requests fail instantly when redis connection is down");
+    client.options.enableOfflineQueue = false;
   });
 
   client.on('reconnecting', function (delay) {

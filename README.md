@@ -30,6 +30,12 @@ See more in https://github.com/luin/ioredis#connect-to-redis
 > **Note**
 > Since v0.2.5, verdaccio-redis-storage changed the redis library from node-redis to [ioredis](https://github.com/luin/ioredis).
 
+### About the offline queue
+
+By default, there is no active connection to the Redis server, commands are added to a queue and are executed once the connection is "ready". This is (only) necessary for the verdaccio-redis-storage initialziation, due to the way a verdaccio plugin is being invoked. You should not set the enableOfflineQueue boolean to false in the configuration file.
+
+However, the offline queue feature will be disabled when the first redis connection is ready, to make following web requests fail instantly if a redis connection is down.
+
 ## Serving tarball
 
 Redis is an in-memory database that is not good at dealing with large tarball files. It's highly recommended to use [verdaccio-storage-proxy](https://github.com/openupm/verdaccio-storage-proxy) to decouple the tarball accesses to another storage backend like [verdaccio-aws-s3-storage](https://github.com/verdaccio/monorepo/tree/master/plugins/aws-s3-storage) or [verdaccio-minio](https://github.com/barolab/verdaccio-minio).
