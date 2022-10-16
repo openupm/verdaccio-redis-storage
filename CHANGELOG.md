@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/openupm/verdaccio-redis-storage/compare/1.1.0...1.1.1) (2022-10-16)
+
+
+### Bug Fixes
+
+* require node v14 ([695a0fd](https://github.com/openupm/verdaccio-redis-storage/commit/695a0fd1ff02850c74fd97f039f1414cb994cd4e))
+
 # [1.1.0](https://github.com/openupm/verdaccio-redis-storage/compare/1.0.3...1.1.0) (2022-10-16)
 
 
