@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/openupm/verdaccio-redis-storage/compare/1.0.2...1.0.3) (2022-10-16)
+
+
+### Bug Fixes
+
+* set enableOfflineQueue off when the first redis connection is ready ([2c9934c](https://github.com/openupm/verdaccio-redis-storage/commit/2c9934c59315f78071c5b4fd0750fb9d0e9d28b6))
+
 ## [1.0.2](https://github.com/openupm/verdaccio-redis-storage/compare/1.0.1...1.0.2) (2022-10-15)
 
 
