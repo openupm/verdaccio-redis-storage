@@ -8,28 +8,28 @@ import YAML from 'js-yaml';
 
 export function redisCreateClient(config: string | RedisOptions, logger: Logger): Redis {
   const client = new Redis(config as any);
-  client.on('connect', function() {
-    logger.info({}, '[verdaccio/redis] connected to redis server');
+  client.on('connect', function () {
+    logger.info('[verdaccio/redis] connected to redis server');
   });
 
-  client.on("ready", function() {
+  client.on("ready", function () {
     logger.info("[verdaccio/redis] ready to use");
   });
 
-  client.on('reconnecting', function(delay) {
-    logger.info({}, '[verdaccio/redis] reconnecting in @{delay}ms');
+  client.on('reconnecting', function (delay) {
+    logger.info({ delay }, '[verdaccio/redis] reconnecting in @{delay}ms');
   });
 
-  client.on('end', function() {
-    logger.info({}, '[verdaccio/redis] redis connection end');
+  client.on('end', function () {
+    logger.info('[verdaccio/redis] redis connection end');
   });
 
-  client.on('close', function() {
-    logger.info({}, '[verdaccio/redis] redis connection close');
+  client.on('close', function () {
+    logger.info('[verdaccio/redis] redis connection close');
   });
 
-  client.on('error', function(err) {
-    logger.error({ err }, '[verdaccio/redis] redis error');
+  client.on('error', function (err) {
+    logger.error({ err }, '[verdaccio/redis] redis error @{err}');
   });
 
   return client;
@@ -97,16 +97,16 @@ export function parseConfigFile(configPath: string): any {
  */
 export function bufferStreamToBase64String(stream: Readable): Promise<string> {
   const chunks: Buffer[] = [];
-  return new Promise(function(resolve, reject) {
-    stream.on('data', function(chunk) {
+  return new Promise(function (resolve, reject) {
+    stream.on('data', function (chunk) {
       chunks.push(chunk as Buffer);
     });
-    stream.on('end', function() {
+    stream.on('end', function () {
       const buf = Buffer.concat(chunks);
       const data = buf.toString('base64');
       resolve(data);
     });
-    stream.on('error', function(err) {
+    stream.on('error', function (err) {
       reject(err);
     });
   });

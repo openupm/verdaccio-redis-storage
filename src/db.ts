@@ -23,7 +23,7 @@ export default class Database {
    */
   public async getSecret(): Promise<string> {
     try {
-      this.logger.debug({}, '[verdaccio/redis] getSecret');
+      this.logger.debug('[verdaccio/redis] getSecret');
       const secret = await this.redisClient.get(REDIS_KEY.secret);
       return secret || '';
     } catch (err) {
@@ -38,7 +38,7 @@ export default class Database {
    */
   public async setSecret(secret: string): Promise<void> {
     try {
-      this.logger.debug({}, '[verdaccio/redis] setSecret');
+      this.logger.debug('[verdaccio/redis] setSecret');
       await this.redisClient.set(REDIS_KEY.secret, secret);
     } catch (err) {
       throw wrapError(err);
@@ -52,7 +52,7 @@ export default class Database {
    */
   public async search(validate: (name: string) => boolean): Promise<string[]> {
     try {
-      this.logger.debug({}, '[verdaccio/redis] db.search');
+      this.logger.debug('[verdaccio/redis] db.search');
       const packages = await this.get();
       const result = packages.filter(validate);
       return result;
@@ -113,7 +113,7 @@ export default class Database {
    */
   public async get(): Promise<string[]> {
     try {
-      this.logger.debug({}, '[verdaccio/redis] get');
+      this.logger.debug('[verdaccio/redis] get');
       const result: string[] = await this.redisClient.smembers(REDIS_KEY.packages);
       return result;
     } catch (err) {

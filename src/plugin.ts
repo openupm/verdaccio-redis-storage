@@ -63,16 +63,13 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
    * @param validateName
    */
   public search(onPackage: onSearchPackage, onEnd: onEndSearchPackage, validateName: onValidatePackage): void {
-    this.logger.trace({}, '[verdaccio/redis] RedisStorage.search');
     this.db
       .search(validateName)
       .then(pkgs => Promise.all(pkgs.map(pkg => this.getStat(pkg, onPackage))))
       .then(() => {
-        // this.logger.trace({}, '[verdaccio/redis] RedisStorage.search onEnd');
         onEnd(null);
       })
       .catch(err => {
-        // this.logger.trace({ err }, '[verdaccio/redis] RedisStorage.search onEnd with error: @{err}');
         onEnd(err);
       });
   }
@@ -85,7 +82,6 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
   private async getStat(name: string, onPackage: onSearchPackage): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const stat: any = await this.db.getStat(name);
-    // this.logger.trace({ name, stat }, '[verdaccio/redis] RedisStorage.getStat @{name} result: @{stat}');
     return new Promise((resolve, reject) => {
       onPackage(stat, err => {
         // this.logger.error({ err }, '[verdaccio/redis] RedisStorage.getStat onPackage callback @{err}');
