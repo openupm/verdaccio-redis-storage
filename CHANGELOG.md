@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/openupm/verdaccio-redis-storage/compare/1.1.1...1.1.2) (2022-10-16)
+
+
+### Bug Fixes
+
+* compile error in wrapError ([9046a8d](https://github.com/openupm/verdaccio-redis-storage/commit/9046a8db7706db25f09ee428fec3ee09b6b2aafa))
+* unit test ([9d6a52e](https://github.com/openupm/verdaccio-redis-storage/commit/9d6a52e46bc33402e1624700fa0b85cbe0b4acdc))
+
 ## [1.1.1](https://github.com/openupm/verdaccio-redis-storage/compare/1.1.0...1.1.1) (2022-10-16)
 
 
