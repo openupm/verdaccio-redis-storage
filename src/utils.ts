@@ -65,12 +65,12 @@ export const PACKAGE_JSON_FILE = 'package.json';
  *
  * @param error
  */
- export function wrapError(err: unknown): VerdaccioError {
-  const obj = err as object;
+export function wrapError(err: unknown): VerdaccioError {
+  const obj = err as any;
   if ('code' in obj && 'message' in obj)
     return err;
   else if ('message' in obj)
-    return getInternalError(obj.message as string);
+    return getInternalError((obj as Error).message);
   else
     return getInternalError(String(err));
  }
