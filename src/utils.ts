@@ -65,14 +65,15 @@ export const PACKAGE_JSON_FILE = 'package.json';
  *
  * @param error
  */
-export function wrapError(err: unknown): VerdaccioError {
-  if (err instanceof Error) {
-    if ('code' in err) return err;
-    return getInternalError(err.message);
-  } else {
+ export function wrapError(err: unknown): VerdaccioError {
+  const obj = err as object;
+  if ('code' in obj && 'message' in obj)
+    return err;
+  else if ('message' in obj)
+    return getInternalError(obj.message as string);
+  else
     return getInternalError(String(err));
-  }
-}
+ }
 
 /**
  * Load verdaccio config file
