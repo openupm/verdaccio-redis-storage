@@ -1,5 +1,4 @@
 import { RedisConfig } from '../../types';
-import { TEST_REDIS_PREFIX } from '../constants';
 
 const config: RedisConfig = {
   user_agent: 'string',
