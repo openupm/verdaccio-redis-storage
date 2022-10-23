@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/openupm/verdaccio-redis-storage/compare/1.2.0...1.2.1) (2022-10-23)
+
+
+### Bug Fixes
+
+* disable redis search limit feature ([7e2d375](https://github.com/openupm/verdaccio-redis-storage/commit/7e2d3751d951ac1d06889b73afdd1d2a0629e132))
+* handle empty search query text ([28b6430](https://github.com/openupm/verdaccio-redis-storage/commit/28b643073be25c6519a5591993b48fc64e3103e3))
+
 # [1.2.0](https://github.com/openupm/verdaccio-redis-storage/compare/1.1.2...1.2.0) (2022-10-23)
 
 
