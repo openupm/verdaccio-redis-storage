@@ -93,10 +93,11 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
     // Redis-search treats hyphen as separator, refs https://forum.redis.com/t/query-with-dash-is-treated-as-negation/119
     const text = (query.text || "").replace(/-/g, ' ').trim();
     if (!text) return [];
-    const offset = query.from || 0;
-    const num = query.size || 250;
+    // const offset = query.from || 0;
+    // const num = query.size || 250;
     try {
-      const result: any = await this.redisClient.call("FT.SEARCH", "ve-pkg-stat-idx", text, "return", "1", "stat", "LIMIT", String(offset), String(num));
+      const result: any = await this.redisClient.call("FT.SEARCH", "ve-pkg-stat-idx", text, "return", "1", "stat");
+      // const result: any = await this.redisClient.call("FT.SEARCH", "ve-pkg-stat-idx", text, "return", "1", "stat", "LIMIT", String(offset), String(num));
       const searchResult: any = [];
       if (result.length <= 1) return [];
       for (let i = 2; i < result.length; i += 2) {
