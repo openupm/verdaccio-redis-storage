@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/openupm/verdaccio-redis-storage/compare/1.1.2...1.2.0) (2022-10-23)
+
+
+### Features
+
+* searchV1 api with redis-search backend ([635b41f](https://github.com/openupm/verdaccio-redis-storage/commit/635b41fcfa258111b1f3e98527f9e9188c92d823))
+
 ## [1.1.2](https://github.com/openupm/verdaccio-redis-storage/compare/1.1.1...1.1.2) (2022-10-16)
 
 
