@@ -50,7 +50,7 @@ Redis is an in-memory database that is not good at dealing with large tarball fi
 | package.json | hash       | ve:pkg:$packageName | package.json |                |
 | tarball      | hash       | ve:pkg:$packageName | $fileName    | base64 encoded |
 
-Data are stored with prefix `ve:` (`testve:` for test mode). You can optionally add global prefix via `config.prefix`.
+Data are stored with prefix `ve:` (`testve:` for test mode).
 
 ## Dump and restore
 
