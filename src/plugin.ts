@@ -34,6 +34,16 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
     else
       this.redisClient = redisCreateClient(this.config, this.logger);
     this.db = new Database(this.redisClient, this.logger);
+    this.createIndex();
+  }
+
+  public async createIndex() {
+    try {
+      await this.redisClient.call("FT.CREATE", "ve-pkg-stat-idx", "ON", "HASH", "PREFIX", "1", "ve:pkg:", "SCHEMA", "stat", "TEXT");
+      const result: any = await this.redisClient.call('FT.INFO', 've-pkg-stat-idx');
+      this.logger.debug({ indexName: result[1] }, "index @{indexName} is ready");
+    } catch (error) {
+    }
   }
 
   public async getSecret(): Promise<string> {
@@ -72,6 +82,45 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
       .catch(err => {
         onEnd(err);
       });
+  }
+
+  /**
+   * Search api implementation for verdaccio-redis-search-patch and verdaccio@6
+   * @param query
+   */
+  public async searchV1(query): Promise<any> {
+    this.logger.debug({ query }, "searchV1 query: @{query}");
+    // Redis-search treats hyphen as separator, refs https://forum.redis.com/t/query-with-dash-is-treated-as-negation/119
+    const text = query.text.replace(/-/g, ' ').trim();
+    if (!text) return [];
+    const offset = query.from || 0;
+    const num = query.size || 250;
+    try {
+      const result: any = await this.redisClient.call("FT.SEARCH", "ve-pkg-stat-idx", text, "return", "1", "stat", "LIMIT", String(offset), String(num));
+      const searchResult: any = [];
+      for (let i = 2; i < result.length; i += 2) {
+        const stat = JSON.parse(result[i][1]);
+        searchResult.push({
+          package: {
+            name: stat.name,
+            path: stat.path,
+            time: Number(stat.time)
+          },
+          score: {
+            final: 0,
+            detail: {
+              quality: 0,
+              popularity: 0,
+              maintenance: 0,
+            }
+          },
+        });
+      }
+      this.logger.debug({ searchResult }, "searchResult: @{searchResult}");
+      return searchResult;
+    } catch (error) {
+      this.logger.error(error, "searchV1 error: @{error}");
+    }
   }
 
   /**
