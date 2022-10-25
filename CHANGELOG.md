@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/openupm/verdaccio-redis-storage/compare/1.2.2...1.2.3) (2022-10-25)
+
+
+### Bug Fixes
+
+* update log message ([6532253](https://github.com/openupm/verdaccio-redis-storage/commit/6532253b4d31b5fd25d6a46652a16ff364f24b3e))
+
 ## [1.2.2](https://github.com/openupm/verdaccio-redis-storage/compare/1.2.1...1.2.2) (2022-10-25)
 
 
