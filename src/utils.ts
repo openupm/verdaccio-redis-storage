@@ -9,25 +9,25 @@ import YAML from 'js-yaml';
 export function redisCreateClient(config: string | RedisOptions, logger: Logger): Redis {
   const client = new Redis(config as any);
   client.on('connect', function () {
-    logger.info('[verdaccio/redis] connected to redis server');
+    logger.warn('[verdaccio/redis] connected to redis server');
   });
 
   client.on("ready", function () {
-    logger.info("[verdaccio/redis] ready to use");
-    logger.info("[verdaccio/redis] set enableOfflineQueue to false to make following web requests fail instantly when redis connection is down");
+    logger.warn("[verdaccio/redis] ready to use");
+    logger.warn("[verdaccio/redis] set enableOfflineQueue to false to make following web requests fail instantly when redis connection is down");
     client.options.enableOfflineQueue = false;
   });
 
   client.on('reconnecting', function (delay) {
-    logger.info({ delay }, '[verdaccio/redis] reconnecting in @{delay}ms');
+    logger.warn({ delay }, '[verdaccio/redis] reconnecting in @{delay}ms');
   });
 
   client.on('end', function () {
-    logger.info('[verdaccio/redis] redis connection end');
+    logger.warn('[verdaccio/redis] redis connection end');
   });
 
   client.on('close', function () {
-    logger.info('[verdaccio/redis] redis connection close');
+    logger.warn('[verdaccio/redis] redis connection close');
   });
 
   client.on('error', function (err) {
