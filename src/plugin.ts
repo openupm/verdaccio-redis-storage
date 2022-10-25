@@ -41,7 +41,7 @@ export default class RedisStorage implements IPluginStorage<RedisConfig> {
     try {
       await this.redisClient.call("FT.CREATE", "ve-pkg-stat-idx", "ON", "HASH", "PREFIX", "1", "ve:pkg:", "SCHEMA", "stat", "TEXT");
       const result: any = await this.redisClient.call('FT.INFO', 've-pkg-stat-idx');
-      this.logger.warn({ indexName: result[1] }, "[verdaccio-redis-storage] index @{indexName} is ready");
+      this.logger.warn({ indexName: result[1] }, "[verdaccio/redis] created index @{indexName}");
     } catch (error) {
     }
   }
