@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/openupm/verdaccio-redis-storage/compare/1.2.3...1.2.4) (2023-10-24)
+
+
+### Bug Fixes
+
+* use query.from and query.size for searchV1 API ([3fbd97e](https://github.com/openupm/verdaccio-redis-storage/commit/3fbd97e531b0f2aaa2e43e2b58047c209419bbd7))
+
 ## [1.2.3](https://github.com/openupm/verdaccio-redis-storage/compare/1.2.2...1.2.3) (2022-10-25)
 
 
